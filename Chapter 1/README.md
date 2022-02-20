@@ -65,3 +65,13 @@ Depending on our shell, exit code 255 might mean that the returned exit code is 
 ## 练习题
 
 略
+
+# Chapter 1.3-1.4
+
+没什么新东西，见main
+
+# Chapter 1.5
+
+- (<>)包含标准库的头文件，("")包含自定义的头文件
+
+- 大多数系统都支持重定向，(>)用来输入，效果和cin一样，例:```./main <./data.txt```将data.txt文件内容输入到main，然后将结果输出到屏幕。可用(<)来指定输出文件。

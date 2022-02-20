@@ -1,64 +1,72 @@
 #include <iostream>
+#include <string>
+#include <sstream>
+#include <unordered_map>
+#include <vector>
+#include "Sales_item.h"
 using namespace std;
 int main()
 {
-	/* 练习1.9
-		int sum = 0, i = 50;
-		while (i <= 100)
+	/*练习1.20
+		int num = 0;
+		stringstream outStr;
+		Sales_item item;
+		while (cin >> item)
 		{
-			sum += i;
-			i++;
+			outStr << item << endl;
+			num++;
+		}
+		cout << outStr.str() << endl;
+	*/
+	/*练习1.22
+		Sales_item sum;
+		Sales_item item;
+		while (cin >> item)
+		{
+			sum += item;
 		}
 		cout << sum << endl;
 	*/
-	/* 练习1.10
-		int i = 10;
-		while (i >= 0)
+	/*练习1.24
+		unordered_map<string, unsigned int> m;
+		Sales_item item;
+		while (cin >> item)
 		{
-			cout << i-- << endl;
+			if (m.count(item.isbn()))
+				m[item.isbn()]++;
+			else
+				m[item.isbn()] = 1;
+		}
+		if (m.empty())
+		{
+			cerr << "NO data!" << endl;
+			return -1;
+		}
+		for (auto x : m)
+			cout << "ISBN: " << x.first << " count:" << x.second << endl;
+	*/
+	/* 练习1.25
+		unordered_map<string, vector<Sales_item>> m;
+		Sales_item item;
+		while (cin >> item)
+		{
+			m[item.isbn()].push_back(item);
+		}
+		if (m.empty())
+		{
+			cerr << "NO data!" << endl;
+			return -1;
+		}
+		for (auto x : m)
+		{
+			Sales_item sum;
+			for (auto y : x.second)
+			{
+				sum += y;
+			}
+			cout << "ISBN: " << x.first << "\tsold units:" << sum.get_units_sold()
+				<< "\trevenue:" << sum.get_revenue() << "\tavg price:" << sum.avg_price() << endl;
 		}
 	*/
-	/* 练习1.11
-		int i = 0, j = 0, low = 0, high = 0;
-		cout << "请输入两个整数:" << endl;
-		cin >> i >> j;
-		low = i > j ? j : i;
-		high = low != i ? i : j;
-		while (low <= high)
-		{
-			cout << low++ << endl;
-		}
-	*/
-	/* 练习1.13
-		int sum = 0;
-		for(auto i = 50; i <= 100; i++)
-		{
-			sum += i;
-		}
-		cout << sum << endl;
-
-		for (auto i = 10; i >= 0; i--)
-		{
-			cout << i << endl;
-		}
-
-		int i = 0, j = 0, low = 0, high = 0;
-		cout << "请输入两个整数:" << endl;
-		cin >> i >> j;
-		low = i > j ? j : i;
-		high = low != i ? i : j;
-		for (; low <= high; low++)
-		{
-			cout << low << endl;
-		}
-	*/
-
-	int sum = 0, value = 0;
-	// 当遇到文件结束符时返回错误，或者类型不匹配时也会报错
-	while (cin >> value)
-	{
-		sum += value;
-	}
-	cout << sum << endl;
 	return 0;
 }
