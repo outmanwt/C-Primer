@@ -1,73 +1,41 @@
 #include <iostream>
 using namespace std;
-int i;
-double j;
-bool k;
-char a;
-
-int count_calls()
-{
-    static int ctr;
-    return ++ctr;
-}
-
-int count_call_err()
-{
-    int ctr;
-    //  warning: ‘ctr’ is used uninitialized in this function [-Wuninitialized]
-    return ++ctr;
-}
-class Persion
-{
-public:
-    int hight;
-    Persion() {};
-};
-
-class Worker
-{
-public:
-    int hight;
-};
-
-class Reader
-{
-public:
-    int hight;
-    Reader() { hight = 1;};
-};
-// 全局的对象会自动初始化为0
-Persion g_persion;
-Worker g_worker;
-Reader g_reader;
+int a = 1;
 
 int main()
 {
-    cout << "i = " << i << endl; // 0
-    cout << "j = " << j << endl; // 0
-    cout << "k = " << k << endl; // 0
-    cout << "a = " << i << endl; // 与编译器有关，我的环境是0，有些是''
-    // 1-10
-    for (size_t i = 0; i < 10; i++)
+    int b = 2;
+    cout << a << " " << b << endl;   // 1 2
+    int a = 3;                       // 此作用域a都指 局部变量a  只有::a才是全局变量a
+    cout << a << " " << ::a << endl; // 3 1
+
+    int i, &ri = i;
+    i = 5;
+    ri = 10;
+    cout << i << " " << ri << endl;
+
+    // void* 可以存放任意地址和指针，但不能访问值
+    double obj = 3.14, *pd = &obj;
+    void *pv = &obj;
+    cout << &obj << " " << pd << endl;
+    pv = pd;
+    cout << pv << endl; // 3个值都是一个地址
+
+    /* 练习题2.23
+        已知一指针p，你可以确定该指针是否指向一个有效的对象吗？如果可以，如何确定？如果不可以，请说明原因。
+    */
+    int *p = new int;
+    // *p = 3;
+    // delete p;
+    cout << *p << endl;
+    cout << p << endl;
+    // p = NULL;
+    // cout << p << endl;
+
+    if (p == nullptr)
     {
-        cout << count_calls() << endl;
+        cout << "未初始化变量";
     }
-    // 1
-    cout << count_call_err() << endl;
-    // 1
-    cout << count_call_err() << endl;
 
-    // cout << ctr   未定义
-
-    cout << g_persion.hight << endl;    // 0
-    cout << g_worker.hight << endl;     // 0
-    cout << g_reader.hight << endl;     // 1
-
-    Persion l_persion;
-    Worker l_worker;
-    Reader l_reader;
-    cout << l_persion.hight << endl; // -802943304      未初始化成员，所以取到了脏数据
-    cout << l_worker.hight << endl;  // -1328497432
-    cout << l_reader.hight << endl;  // 1
     return 0;
 }
