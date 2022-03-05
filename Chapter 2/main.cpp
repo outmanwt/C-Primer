@@ -1,32 +1,73 @@
 #include <iostream>
 using namespace std;
+int i;
+double j;
+bool k;
+char a;
+
+int count_calls()
+{
+    static int ctr;
+    return ++ctr;
+}
+
+int count_call_err()
+{
+    int ctr;
+    //  warning: ‘ctr’ is used uninitialized in this function [-Wuninitialized]
+    return ++ctr;
+}
+class Persion
+{
+public:
+    int hight;
+    Persion() {};
+};
+
+class Worker
+{
+public:
+    int hight;
+};
+
+class Reader
+{
+public:
+    int hight;
+    Reader() { hight = 1;};
+};
+// 全局的对象会自动初始化为0
+Persion g_persion;
+Worker g_worker;
+Reader g_reader;
+
 int main()
 {
-    unsigned a = -1;
-    cout << "unsigned a = -1" << endl;
-    cout << "size a = " << a << endl;
+    cout << "i = " << i << endl; // 0
+    cout << "j = " << j << endl; // 0
+    cout << "k = " << k << endl; // 0
+    cout << "a = " << i << endl; // 与编译器有关，我的环境是0，有些是''
+    // 1-10
+    for (size_t i = 0; i < 10; i++)
+    {
+        cout << count_calls() << endl;
+    }
+    // 1
+    cout << count_call_err() << endl;
+    // 1
+    cout << count_call_err() << endl;
 
-    unsigned u = 10, u2 = 42;
-    int i = 10, i2 = 42;
+    // cout << ctr   未定义
 
-    cout << "unsigned u = 10, u2 = 42" << endl;
-    cout << "int i = 10, i2 = 42" << endl;
+    cout << g_persion.hight << endl;    // 0
+    cout << g_worker.hight << endl;     // 0
+    cout << g_reader.hight << endl;     // 1
 
-    cout << "u2 - u:" << u2 - u << endl;   // 32
-    cout << "u - u2:" << u - u2 << endl;   // 2^32 - 32
-    cout << "i2 - i = " << i2 - i << endl; // 32
-    cout << "i - i2 = " << i - i2 << endl; // -32
-    cout << "i - u = " << i - u << endl;   // 0
-    cout << "u - i = " << u - i << endl;   // 0
-    cout << "a - i = " << a - i << endl;   // 2^32 - 1 - 10
-
-    cout << "size 'a' = " << sizeof('a') << endl;
-    cout << "size wchar_t = " << sizeof(wchar_t) << endl;
-    cout << "size L'a' = " << sizeof(L'a') << endl;
-    cout << "size \"a\" = " << sizeof("a") << endl;
-    cout << "size L\"a\" = " << sizeof(L"a") << endl;
-
-    cout << sizeof(10L) << endl; //8
-
+    Persion l_persion;
+    Worker l_worker;
+    Reader l_reader;
+    cout << l_persion.hight << endl; // -802943304      未初始化成员，所以取到了脏数据
+    cout << l_worker.hight << endl;  // -1328497432
+    cout << l_reader.hight << endl;  // 1
     return 0;
 }
